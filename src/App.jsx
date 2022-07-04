@@ -1,10 +1,28 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import ColorfulMessage from "./components/ColorfulMessage";
 
 const App1 = () => {
-  const onClickButton = () => {
-    alert();
+  console.log("最初");
+  const [num, setNum] = useState(1);
+  const [flgFaceShow, setFlgFaceShow] = useState(true);
+
+  const onClickCountUp = () => {
+    setNum(Math.ceil(num + num / 2));
   };
+  const onClickFaceShow = () => {
+    setFlgFaceShow(!flgFaceShow);
+  };
+
+  // 関心の分離
+  useEffect(() => {
+    console.log("numえふぇくと");
+    if (num % 3 === 0) {
+      flgFaceShow || setFlgFaceShow(true);
+    } else {
+      flgFaceShow && setFlgFaceShow(false);
+    }
+    // eslint-disable-next-line  react-hooks/exhaustive-deps
+  }, [num]);
 
   return (
     <>
@@ -13,7 +31,10 @@ const App1 = () => {
       <ColorfulMessage color="blue">
         まだまだ覚えられんから何度もやる
       </ColorfulMessage>
-      <button onClick={onClickButton}>ボタンです</button>
+      <button onClick={onClickCountUp}>カウントアップボタンです</button>
+      <p>{num}</p>
+      <button onClick={onClickFaceShow}>顔文字on/off/off</button>
+      {flgFaceShow && <p> ^^) _旦~~</p>}
     </>
   );
 };
